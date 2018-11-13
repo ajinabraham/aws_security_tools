@@ -5,6 +5,7 @@ Bunch of scripts for AWS Pentest
 * lambda_backdoor.py - Backdoor AWS users
 * iam_user_enum.py - Bruteforce IAM usernames
 * assume_role_enum - Enumerate and Assume IAM Roles for privilege escalation
+* k8s_secrets_dumper.py - Kubernetes Secrets Dumper
 
 # Credits
 * Rhino Securiry Labs - iam_user_enum, assume_role_enum
