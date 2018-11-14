@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-mount
+  namespace: kube-system
+spec:
+  containers:
+  - name: node-mount
+    image: "ubuntu:14.04"
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "while true; do sleep 30; done;" ] # To Keep Container in running state
+    securityContext:
+      privileged: true
+    volumeMounts:
+      - name: rootfs
+        mountPath: /rootfs
+  restartPolicy: Always
+  volumes:
+    - name: rootfs
+      hostPath:
+        path: /
+  nodeSelector:
+    kubernetes.io/hostname: $NODE_HOSTNAME
