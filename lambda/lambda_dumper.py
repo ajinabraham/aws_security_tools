@@ -20,6 +20,7 @@ class LambdaDumper:
         self.out_dir = out_dir
         self.client = boto3.client('lambda')
         self.funcs = []
+        self.arns = []
 
     def get_lambda_functions(self):
         res = self.client.list_functions(
@@ -27,7 +28,10 @@ class LambdaDumper:
             MaxItems=1000
         )
         self.funcs = [f["FunctionName"] for f in res["Functions"]]
-
+        self.arns = [f["FunctionArn"] for f in res["Functions"]]
+        print('[INFO] Lambda function arns')
+        for arn in self.arns:
+            print(arn)        
     def download_functions(self):
         for func in self.funcs:
             print(f'[INFO] - Downloading Function: {func}')
