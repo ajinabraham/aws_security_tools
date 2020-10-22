@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: podtonode
+  labels:
+    k8s-app: podtonode
+spec:
+  selector:
+    matchLabels:
+      name: podtonode
+  template:
+    metadata:
+      labels:
+        name: podtonode
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      hostNetwork: true
+      hostPID: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: nsenter
+        image: alexeiled/nsenter:2.34
+        securityContext:
+          privileged: true
+        command:
+        - "/nsenter"
+        - "--all"
+        - "--target=1"
+        - "--"
+        - "sh"
+        - "-c"
+        args:
+        - uname -a; id; while true; do sleep 1; done'
+        resources:
+          requests:
+            cpu: 10m
